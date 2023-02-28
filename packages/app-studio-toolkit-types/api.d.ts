@@ -1,6 +1,8 @@
 import { Uri } from "vscode";
-import { WorkspaceApi } from "@sap/artifact-management-types";
 import { PackageJson } from "type-fest";
+import { BasWorkspaceApi } from "@sap/artifact-management-types";
+
+export { BasWorkspaceApi };
 
 /**
  * re-export of the types from `@sap/artifact-management-types for convenience
@@ -60,11 +62,6 @@ export interface NodeUpgradeSpec {
     to: SemVer | SemVerRange;
   };
 }
-
-export type BasWorkspaceApi = Pick<
-  WorkspaceApi,
-  "getProjects" | "getProjectUris" | "onWorkspaceChanged"
->;
 
 export interface BasToolkit {
   /**

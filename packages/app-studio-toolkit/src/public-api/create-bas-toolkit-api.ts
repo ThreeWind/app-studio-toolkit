@@ -1,15 +1,12 @@
-import { WorkspaceApi } from "@sap/artifact-management";
 import {
   BasToolkit,
   BasWorkspaceApi,
 } from "@sap-devx/app-studio-toolkit-types";
-import { createWorkspaceProxy } from "./create-workspace-proxy";
 
 export function createBasToolkitAPI(
-  workspaceImpl: WorkspaceApi,
+  workspaceAPI: BasWorkspaceApi,
   baseBasToolkitAPI: Omit<BasToolkit, "workspaceAPI">
 ): BasToolkit {
-  const workspaceAPI: BasWorkspaceApi = createWorkspaceProxy(workspaceImpl);
   const exportedBasToolkitAPI = {
     // note `...` here effectively does a "shallow" clone
     ...baseBasToolkitAPI,
