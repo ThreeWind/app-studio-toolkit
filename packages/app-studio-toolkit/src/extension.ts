@@ -1,4 +1,4 @@
-import * as vscode from "vscode";
+import { commands, ExtensionContext, Uri, workspace } from "vscode";
 import { BasToolkit } from "@sap-devx/app-studio-toolkit-types";
 import { baseBasToolkitAPI } from "./public-api/base-bas-api";
 import { createBasToolkitAPI } from "./public-api/create-bas-toolkit-api";
@@ -10,7 +10,7 @@ import { ActionsController } from "./actions/controller";
 import { initLogger, getLogger } from "./logger/logger";
 import { basAdapter as projectApiBasAdapter } from "@sap/artifact-management";
 
-export function activate(context: vscode.ExtensionContext): BasToolkit {
+export function activate(context: ExtensionContext): BasToolkit {
   initLogger(context);
 
   startBasctlServer();
@@ -21,7 +21,12 @@ export function activate(context: vscode.ExtensionContext): BasToolkit {
 
   void ActionsController.performActionsFromURL();
 
-  const workspaceAPI = projectApiBasAdapter.getBasWorkspaceApi(vscode);
+  const workspaceAPI = projectApiBasAdapter.getBasWorkspaceApi({
+    context,
+    commands,
+    Uri,
+    workspace,
+  });
   const basToolkitAPI = createBasToolkitAPI(workspaceAPI, baseBasToolkitAPI);
 
   const logger = getLogger().getChildLogger({ label: "activate" });
